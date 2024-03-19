@@ -7,10 +7,7 @@ import br.com.tgid.javajunior.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value="api/transaction")
@@ -20,20 +17,28 @@ public class TransitionController {
     private TransactionService transitionService;
 
     @PostMapping(value="/add")
-    public ResponseEntity<Transaction> createJoinCompanyClient(@RequestBody ReceiveDataTransition data) {
-        Transaction createdTransation = transitionService.create(data);
+    public ResponseEntity<Object> createJoinCompanyClient(@RequestBody ReceiveDataTransition data) {
+        try {
+            Transaction createdTransation = transitionService.create(data);
 
-        return new ResponseEntity<>(createdTransation, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdTransation, HttpStatus.CREATED);
+        }catch(Exception error) {
+            return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PostMapping(value="/withdraw")
-    public ResponseEntity<Double> receiveWithdraw (@RequestBody ReceiveTransition transition) {
-        double value = transitionService.getWithdraw(transition.getCpf(), transition.getCnpj(), transition.getValue());
+    @PutMapping(value="/withdraw")
+    public ResponseEntity<Object> receiveWithdraw (@RequestBody ReceiveTransition transition) {
+        try {
+            double value = transitionService.getWithdraw(transition.getCpf(), transition.getCnpj(), transition.getValue());
 
-        return new ResponseEntity<>(value, HttpStatus.OK);
+            return new ResponseEntity<>(value, HttpStatus.OK);
+        } catch (Exception error) {
+            return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PostMapping(value="/deposit")
+    @PutMapping(value="/deposit")
     public ResponseEntity<Object> receiveDeposit (@RequestBody ReceiveTransition transition) {
         try{
             double value = transitionService.setDeposit(transition.getCpf(), transition.getCnpj(), transition.getValue());
