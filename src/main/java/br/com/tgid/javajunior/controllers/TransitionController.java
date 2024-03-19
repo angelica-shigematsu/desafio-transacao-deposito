@@ -2,8 +2,8 @@ package br.com.tgid.javajunior.controllers;
 
 import br.com.tgid.javajunior.dtos.ReceiveDataTransition;
 import br.com.tgid.javajunior.dtos.ReceiveTransition;
-import br.com.tgid.javajunior.models.Transition;
-import br.com.tgid.javajunior.services.TransitionService;
+import br.com.tgid.javajunior.models.Transaction;
+import br.com.tgid.javajunior.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransitionController {
 
     @Autowired
-    private TransitionService transitionService;
+    private TransactionService transitionService;
 
     @PostMapping(value="/add")
-    public ResponseEntity<Transition> createJoinCompanyClient(@RequestBody ReceiveDataTransition data) {
-        Transition createdTransation = transitionService.create(data);
+    public ResponseEntity<Transaction> createJoinCompanyClient(@RequestBody ReceiveDataTransition data) {
+        Transaction createdTransation = transitionService.create(data);
 
         return new ResponseEntity<>(createdTransation, HttpStatus.CREATED);
     }
@@ -32,4 +32,16 @@ public class TransitionController {
 
         return new ResponseEntity<>(value, HttpStatus.OK);
     }
+
+    @PostMapping(value="/deposit")
+    public ResponseEntity<Object> receiveDeposit (@RequestBody ReceiveTransition transition) {
+        try{
+            double value = transitionService.setDeposit(transition.getCpf(), transition.getCnpj(), transition.getValue());
+
+            return new ResponseEntity<>(value, HttpStatus.OK);
+            }catch(Exception error) {
+            return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
