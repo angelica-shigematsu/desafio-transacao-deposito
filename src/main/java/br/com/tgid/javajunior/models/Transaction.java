@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="transition")
+@Table(name="transaction")
 @Getter
 @Setter
 @NoArgsConstructor
