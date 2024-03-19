@@ -13,16 +13,19 @@ public class ClientService {
 
     public Client create(Client client) {
 
+        Client data = clientRepository.findByCpf(client.getCpf());
 
-        Client existCPF = clientRepository.findByCpf(client.getCpf());
+        if (client.getEmail() == null) throw new RuntimeException("Email vazio");
 
-        if (existCPF != null) throw new RuntimeException("Já existe cliente com esse CPF");
+        if (data.getEmail().contentEquals(client.getEmail())) throw new RuntimeException("Email inválido. Tente outro");
 
-        if (client.getCpf().isEmpty()) throw new RuntimeException("CPF vazio");
+        if (data != null) throw new RuntimeException("Já existe cliente com esse CPF");
 
-        if (client.getCpf().length() != 11) throw  new RuntimeException("CPF inválido. Digite 11 dígitos");
+        if (client.getCpf() == null) throw new RuntimeException("CPF vazio");
 
-        if (client.getCpf().matches("/[A-Za-z]/")) throw  new RuntimeException("Digite apenas digitos");
+        if (client.getCpf().length() != 11) throw new RuntimeException("CPF inválido. Digite 11 dígitos");
+
+        if (client.getCpf().matches("/[A-Za-z]/")) throw new RuntimeException("Digite apenas digitos");
 
         return this.clientRepository.save(client);
     }
