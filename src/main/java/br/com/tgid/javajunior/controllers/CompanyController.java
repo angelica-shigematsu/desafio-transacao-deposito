@@ -17,10 +17,14 @@ public class CompanyController {
     private CompanyService service;
 
     @PostMapping(value="/add")
-    public ResponseEntity<Company> createCompany(@RequestBody Company company) {
-        Company createdCompany = service.create(company);
+    public ResponseEntity<Object> createCompany(@RequestBody Company company) {
+        try{
+            Company createdCompany = service.create(company);
 
-        return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);
+        }catch(Exception error) {
+            return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
