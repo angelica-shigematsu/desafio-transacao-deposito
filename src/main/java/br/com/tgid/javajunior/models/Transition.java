@@ -19,10 +19,10 @@ public class Transition {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name="client_id")
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name="company_id", nullable=false)
+    @JoinColumn(name="company_id")
     private Company company;
 }
