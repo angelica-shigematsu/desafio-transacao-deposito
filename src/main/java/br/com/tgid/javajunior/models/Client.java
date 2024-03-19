@@ -23,4 +23,7 @@ public class Client {
     @Column(name="cpf", unique=true)
     private String cpf;
 
+    @Column(name="email", unique = true)
+    private String email;
+
 }
