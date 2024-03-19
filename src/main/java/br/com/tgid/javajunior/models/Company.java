@@ -15,9 +15,10 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", unique = true)
     private long id;
-    @Column(name="id", nullable = false)
+
+    @Column(name="cnpj")
     private String cnpj;
 
-    @Column(name="saldo", nullable = false)
+    @Column(name="saldo")
     private double saldo;
 }
