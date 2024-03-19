@@ -13,6 +13,11 @@ public class ClientService {
 
     public Client create(Client client) {
 
+
+        Client existCPF = clientRepository.findByCpf(client.getCpf());
+
+        if (existCPF != null) throw new RuntimeException("Já existe cliente com esse CPF");
+
         if (client.getCpf().isEmpty()) throw new RuntimeException("CPF vazio");
 
         if (client.getCpf().length() != 11) throw  new RuntimeException("CPF inválido. Digite 11 dígitos");

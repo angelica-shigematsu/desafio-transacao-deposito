@@ -17,13 +17,10 @@ public class Client {
     @Column(name="id", unique = true)
     private long id;
 
-    @Column(name="fullname", nullable = false)
+    @Column(name="fullName")
     private String fullName;
 
-    @Column(name="cpf", nullable = false)
+    @Column(name="cpf", unique=true)
     private String cpf;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Transition transition;
 }
